@@ -1,18 +1,17 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moodify</title>
-    <link rel="stylesheet" href="../static/Main.css"> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='Main.css') }}"> 
 </head>
 <body>
 
     <div class="container">
         <div class="row">
            
-            <img src="../static/images/logo.png" class="logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" class="logo">
             
             <div class ="content">
                 <h1>Get Started Now</h1>
@@ -21,11 +20,17 @@
                 <p style="margin-bottom: 40px;"> Click the button below to be transported to a realm far from your troubles...
                 </p>
                 <a href="Manual.html" class="manual-button">Manual</a>
-                <a href="AI.html" class="ai-button">AI</a>
+                <a href="#" class="ai-button" id="ai-button">AI</a>
             </div>
         </div>
-
     </div>
+
+    <script>
+        document.getElementById('ai-button').addEventListener('click', function () {
+            // When the AI button is clicked, start emotion recognition
+            fetch('/start_emotion_recognition');
+        });
+    </script>
     
 </body>
 </html>
