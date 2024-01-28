@@ -1,8 +1,6 @@
-https://github.com/nebez/floppybird
+
 Certainly! Below is a basic template for a README.md file for your GitHub project. You can customize it further based on the specifics of your project:
 
-
-Copy code
 # Real-time Emotion Detection Web Application
 
 ## Overview
@@ -51,4 +49,4 @@ Adjust the video resolution and other parameters in the HTML and Python code as 
 License
 This project is licensed under the License - see the LICENSE file for details.
 
-
+Open source used: https://github.com/nebez/floppybird
