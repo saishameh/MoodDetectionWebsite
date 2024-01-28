@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Emotion Detection</title>
+</head>
+<body>
+    <h1>Real-time Emotion Detection</h1>
+    <video id="video_feed" width="640" height="480" autoplay></video>
+    <p id="detected_emotion"></p>
+    
+    <script>
+        const video = document.getElementById('video_feed');
+        const detectedEmotion = document.getElementById('detected_emotion');
+
+        function startVideo() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then((stream) => {
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch((error) => console.error('Error accessing camera:', error));
+        }
+
+        function updateEmotion() {
+            fetch('/get_detected_emotion')
+                .then(response => response.json())
+                .then(data => {
+                    detectedEmotion.textContent = 'Detected Emotion: ' + data.detected_emotion;
+                    setTimeout(updateEmotion, 1000); // Update every 1 second
+                })
+                .catch(error => console.error('Error fetching emotion:', error));
+        }
+
+        startVideo();
+        updateEmotion();
+    </script>
+</body>
+</html>
