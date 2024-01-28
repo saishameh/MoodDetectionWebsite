@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, Response, redirect
+from flask import Flask, render_template, jsonify, Response, send_from_directory
 import cv2
 import numpy as np
 from tensorflow.keras.models import load_model
@@ -9,7 +9,7 @@ emotion_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutr
 model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'facial_expression_model_architecture.h5')
 model = load_model(model_path)
 
-emotion_log_file = 'emotion_log.txt' # Specify the path to your text file
+emotion_log_file = 'emotion_log.txt'  
 
 # Global counter to keep track of the number of detected emotions
 detected_emotions_count = 0
@@ -44,14 +44,13 @@ def generate_frames(detected_emotions_count):
         _, buffer = cv2.imencode('.jpg', frame)
         frame = buffer.tobytes()
         yield (b'--frame\r\n'
-            b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 def save_emotion_to_file(emotion):
     with open(emotion_log_file, 'a') as file:
         file.write(f'{emotion}\n')
 
-app = Flask(__name__)
-app.static_folder = 'static'
+app = Flask(__name__, template_folder='Frontend/templates', static_folder='Frontend/static')
 
 @app.route('/video_feed')
 def video_feed():
@@ -84,12 +83,11 @@ def home():
     detected_emotion = emotion_labels[np.argmax(emotion_probabilities)]
 
     if detected_emotion == 'Happy':
-        return render_template('happy.html', detected_emotion=detected_emotion)
+        return render_template('templates/Main.html', detected_emotion=detected_emotion)
     elif detected_emotion == 'Sad':
-        return render_template('sad.html', detected_emotion=detected_emotion)
+        return render_template('templates/Main.html', detected_emotion=detected_emotion)
     else:
-        return render_template('home.html', detected_emotion=detected_emotion)
-
+        return render_template('templates/Main.html', detected_emotion=detected_emotion)
 
 if __name__ == '__main__':
     app.run(debug=True)
