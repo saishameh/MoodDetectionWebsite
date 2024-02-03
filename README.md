@@ -23,7 +23,7 @@ This project is a real-time emotion detection web application built with Flask a
 
 2. Navigate to the project directory:
    ```bash
-   cd Moodify
+   cd Moodify/Backend
 
 3. Install the required dependencies:
    ```bash
